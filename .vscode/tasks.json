@@ -4,9 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "go build",
+            "label": "build dsxgrep",
             "type": "shell",
-            "command": "go build",
+            "command": "go build dsxgrep",
             "group": {
                 "kind": "build",
                 "isDefault": true
