@@ -56,6 +56,7 @@ func (t *commandLJobs) process() {
 
 	dsjob := false
 	dsJobName := "<not available>"
+	dsCategory := "<not available>"
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -66,13 +67,23 @@ func (t *commandLJobs) process() {
 		if dsjob {
 			if strings.HasPrefix(line, dsjobIDENTIFIER) {
 				dsJobName = strings.Split(line, "\"")[1]
-				fmt.Printf("%s\n", dsJobName)
+			}
+			if strings.HasPrefix(line, dsjobCATEGORY) {
+				dsCategory = strings.Split(line, "\"")[1]
 			}
 		}
 
 		if line == endDSJOB {
+			// Print job info now !
+			if withCategory {
+				fmt.Printf("%s\t%s\n", dsCategory, dsJobName)
+			} else {
+				fmt.Printf("%s\n", dsJobName)
+			}
+
 			dsjob = false
 			dsJobName = "<not available>"
+			dsCategory = "<not available>"
 		}
 
 	}

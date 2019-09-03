@@ -30,6 +30,7 @@ const (
 	endDSJOB   string = "END DSJOB"
 
 	dsjobIDENTIFIER string = "   Identifier"
+	dsjobCATEGORY   string = "      Category"
 )
 
 // Interface command
@@ -72,6 +73,11 @@ func main() {
 // Check error returned by I/O functions
 func check(e error) {
 	if e != nil {
+		if os.IsNotExist(e) {
+
+		} else {
+
+		}
 		panic(e)
 	}
 }

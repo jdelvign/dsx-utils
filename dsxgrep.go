@@ -31,25 +31,27 @@ func (t *commandGrep) process() {
 	var (
 		dsxFileName string
 		subString   string
+		ignoreCase  bool
 	)
 
 	grepCmd := flag.NewFlagSet("grep", flag.ExitOnError)
 	grepCmd.StringVar(&subString, "substr", "", "The substring to find in the DSX file")
 	grepCmd.StringVar(&dsxFileName, "dsxfile", "", "The DSX file to search in")
+	grepCmd.BoolVar(&ignoreCase, "ignoreCase", false, "Search the substring in case sensitive (false/default) or not (true)")
 
 	grepCmd.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: dsxutl grep -substr SUBSTRING -dsxfile DSXFILE\n")
+		fmt.Fprintf(os.Stderr, "Usage: dsxutl grep -substr <SUBSTRING> [-ignoreCase] -dsxfile <DSXFILE>\n")
 		grepCmd.PrintDefaults()
 	}
 
 	grepCmd.Parse(os.Args[2:])
 
-	if grepCmd.NFlag() != 2 {
+	if (grepCmd.NFlag() > 3) || (grepCmd.NFlag() == 0) {
 		grepCmd.Usage()
 		os.Exit(1)
 	}
 
-	fmt.Printf("Searching \"%s\" in %s\n", subString, dsxFileName)
+	fmt.Printf("Searching \"%s\" in %s, ignoreCase=%t\n", subString, dsxFileName, ignoreCase)
 
 	f := openFile(dsxFileName)
 	defer f.Close()
@@ -60,6 +62,7 @@ func (t *commandGrep) process() {
 	displayJobName := false
 	dsJobName := "<not available>"
 	lineCounter := 1
+	searchIndex := -1
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -71,7 +74,14 @@ func (t *commandGrep) process() {
 			if strings.HasPrefix(line, dsjobIDENTIFIER) {
 				dsJobName = strings.Split(line, "\"")[1]
 			}
-			if strings.Index(line, subString) != -1 {
+
+			if ignoreCase {
+				searchIndex = strings.Index(strings.ToLower(line), strings.ToLower(subString))
+			} else {
+				searchIndex = strings.Index(line, subString)
+			}
+
+			if searchIndex != -1 {
 				if !displayJobName {
 					fmt.Printf("%s:\n", dsJobName)
 					displayJobName = true
