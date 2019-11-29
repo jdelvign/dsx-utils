@@ -1,3 +1,5 @@
+![Version](https://img.shields.io/github/manifest-json/v/jdelvign/dsxutl)
+
 # dsxutl
 Simple tool to work with IBM DataStage DSX files
 
