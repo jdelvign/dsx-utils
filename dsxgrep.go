@@ -59,10 +59,12 @@ func (t *commandGrep) process() {
 	scanner := bufio.NewScanner(f)
 
 	dsjob := false
-	displayJobName := false
 	dsJobName := "<not available>"
+	dsCategory := "<not available>"
 	lineCounter := 1
 	searchIndex := -1
+
+	var matches []string
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -75,6 +77,10 @@ func (t *commandGrep) process() {
 				dsJobName = strings.Split(line, "\"")[1]
 			}
 
+			if strings.HasPrefix(line, dsjobCATEGORY) {
+				dsCategory = strings.Split(line, "\"")[1]
+			}
+
 			if ignoreCase {
 				searchIndex = strings.Index(strings.ToLower(line), strings.ToLower(subString))
 			} else {
@@ -82,18 +88,23 @@ func (t *commandGrep) process() {
 			}
 
 			if searchIndex != -1 {
-				if !displayJobName {
-					fmt.Printf("%s:\n", dsJobName)
-					displayJobName = true
-				}
-				fmt.Printf("%d:\t%s\n", lineCounter, line)
+				matches = append(matches, fmt.Sprintf("%d:\t%s", lineCounter, line))
 			}
 		}
 
 		if line == endDSJOB {
+
+			if len(matches) != 0 {
+				fmt.Printf("%s;%s:\n", dsJobName, dsCategory)
+				for _, match := range matches {
+					fmt.Printf("%s\n", match)
+				}
+			}
+
 			dsjob = false
 			dsJobName = "<not available>"
-			displayJobName = false
+			dsCategory = "<not available>"
+			matches = nil
 		}
 
 		lineCounter++
