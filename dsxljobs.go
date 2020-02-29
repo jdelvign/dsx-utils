@@ -55,11 +55,17 @@ func (t *commandLJobs) process() {
 	scanner := bufio.NewScanner(f)
 
 	dsjob := false
+	dsProject := "<not available>"
 	dsJobName := "<not available>"
 	dsCategory := "<not available>"
 
 	for scanner.Scan() {
 		line := scanner.Text()
+
+		if strings.HasPrefix(line, toolInstanceID) {
+			dsProject = strings.Split(line, "\"")[1]
+		}
+
 		if line == beginDSJOB {
 			dsjob = true
 		}
@@ -76,7 +82,7 @@ func (t *commandLJobs) process() {
 		if line == endDSJOB {
 			// Print job info now !
 			if withCategory {
-				fmt.Printf("%s\t%s\n", dsCategory, dsJobName)
+				fmt.Printf("%s\t%s\t%s\n", dsProject, dsCategory, dsJobName)
 			} else {
 				fmt.Printf("%s\n", dsJobName)
 			}

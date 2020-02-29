@@ -29,6 +29,8 @@ const (
 	beginDSJOB string = "BEGIN DSJOB"
 	endDSJOB   string = "END DSJOB"
 
+	toolInstanceID string = "   ToolInstanceID"
+
 	dsjobIDENTIFIER string = "   Identifier"
 	dsjobCATEGORY   string = "      Category"
 )
@@ -74,7 +76,8 @@ func main() {
 func check(e error) {
 	if e != nil {
 		if os.IsNotExist(e) {
-
+			fmt.Fprintln(os.Stderr, e)
+			os.Exit(1)
 		} else {
 
 		}
