@@ -1,0 +1,11 @@
+BEGIN HEADER
+   CharacterSet "CP1252"
+   ExportingTool "IBM InfoSphere DataStage Export"
+   ToolVersion "8"
+   ServerName "SV-DC-DSG299"
+   ToolInstanceID "ByDior_Dev"
+   MDISVersion "1.0"
+   Date "2018-05-16"
+   Time "14.44.33"
+   ServerVersion "8.7"
+END HEADER

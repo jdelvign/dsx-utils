@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 // Package main provides the entry point of the 'dsxutl' commands
 package main
 
@@ -53,8 +54,13 @@ func main() {
 	m["header"] = new(commandHeader)
 	m["ljobs"] = new(commandLJobs)
 
+	usageMsg := `Usage: dsxutl <command> <options>
+  dsxutl grep <options>
+  dsxutl header <options>
+  dsxutl ljobs <options>`
+
 	if len(os.Args) < 2 {
-		fmt.Println("expected 'grep', 'header', 'ljobs' subcommands")
+		fmt.Println(usageMsg)
 		os.Exit(1)
 	}
 
@@ -64,12 +70,10 @@ func main() {
 	if cmd != nil {
 		cmd.process()
 	} else {
-		fmt.Println("expected 'grep', 'header', 'ljobs' subcommands")
+		fmt.Printf("Unknown command: %s\n", os.Args[1])
+		fmt.Println(usageMsg)
 		os.Exit(1)
 	}
-
-	//t := time.Now()
-	//fmt.Printf("Elapsed Time: %v\n", t.Sub(start))
 }
 
 // Check error returned by I/O functions
@@ -78,8 +82,6 @@ func check(e error) {
 		if os.IsNotExist(e) {
 			fmt.Fprintln(os.Stderr, e)
 			os.Exit(1)
-		} else {
-
 		}
 		panic(e)
 	}

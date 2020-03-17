@@ -1,0 +1,7 @@
+Usage: dsxutl grep -substr <SUBSTRING> [-ignoreCase] -dsxfile <DSXFILE>
+  -dsxfile string
+    	The DSX file to search in
+  -ignoreCase
+    	Search the substring in case sensitive (false/default) or not (true)
+  -substr string
+    	The substring to find in the DSX file

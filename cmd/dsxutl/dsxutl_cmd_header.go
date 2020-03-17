@@ -29,7 +29,7 @@ func (t *commandHeader) process() {
 	var dsxFileName string
 
 	headerCmd := flag.NewFlagSet("header", flag.ExitOnError)
-	headerCmd.StringVar(&dsxFileName, "dsxfile", "", "The DSX file to inspect")
+	headerCmd.StringVar(&dsxFileName, "dsxfile", "", "The DSX file to search in")
 
 	headerCmd.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: dsxutl header -dsxfile DSXFILE\n")
@@ -38,7 +38,8 @@ func (t *commandHeader) process() {
 
 	headerCmd.Parse(os.Args[2:])
 
-	if headerCmd.NFlag() != 1 {
+	if dsxFileName == "" {
+		fmt.Fprintf(os.Stderr, "Mandatory flag not provided: -dsxfile\n")
 		headerCmd.Usage()
 		os.Exit(1)
 	}

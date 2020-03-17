@@ -44,7 +44,8 @@ func (t *commandLJobs) process() {
 
 	ljobsCmd.Parse(os.Args[2:])
 
-	if (ljobsCmd.NFlag() > 2) || (ljobsCmd.NFlag() == 0) {
+	if dsxFileName == "" {
+		fmt.Fprintf(os.Stderr, "Mandatory flag not provided: -dsxfile\n")
 		ljobsCmd.Usage()
 		os.Exit(1)
 	}

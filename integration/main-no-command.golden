@@ -1,0 +1,4 @@
+Usage: dsxutl <command> <options>
+  dsxutl grep <options>
+  dsxutl header <options>
+  dsxutl ljobs <options>

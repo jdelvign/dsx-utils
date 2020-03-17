@@ -1,0 +1,6 @@
+Mandatory flag not provided: -dsxfile
+Usage: dsxutl ljobs [-withCategory] -dsxfile DSXFILE
+  -dsxfile string
+    	The DSX file to search in
+  -withCategory
+    	Display the Category where job resides
