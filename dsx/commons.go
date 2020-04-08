@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package main provides the entry point of the 'dsxutl' commands
-package main
+// Package dsx contains code for the dsxutl command
+package dsx
 
 import (
 	"fmt"
@@ -27,6 +27,8 @@ const (
 	beginHeader string = "BEGIN HEADER"
 	endHeader   string = "END HEADER"
 
+	dsCharset string = "   CharacterSet"
+
 	beginDSJOB string = "BEGIN DSJOB"
 	endDSJOB   string = "END DSJOB"
 
@@ -36,44 +38,9 @@ const (
 	dsjobCATEGORY   string = "      Category"
 )
 
-// Interface command
-type command interface {
-	process()
-}
-
-// Function main do something with `dsxutl` Command
-// Subcommands :
-// 		`dsxutl grep -substr <substring> -dsxfile <dsxfile>` : find the substring inside the Job Designs
-//		`dsxutl header -dsxfile <dsxfile>` : Print the DSX header
-func main() {
-
-	//start := time.Now()
-
-	m := make(map[string]command)
-	m["grep"] = new(commandGrep)
-	m["header"] = new(commandHeader)
-	m["ljobs"] = new(commandLJobs)
-
-	usageMsg := `Usage: dsxutl <command> <options>
-  dsxutl grep <options>
-  dsxutl header <options>
-  dsxutl ljobs <options>`
-
-	if len(os.Args) < 2 {
-		fmt.Println(usageMsg)
-		os.Exit(1)
-	}
-
-	// Select the Subcommand
-	cmd := m[os.Args[1]]
-
-	if cmd != nil {
-		cmd.process()
-	} else {
-		fmt.Printf("Unknown command: %s\n", os.Args[1])
-		fmt.Println(usageMsg)
-		os.Exit(1)
-	}
+// Command ...
+type Command interface {
+	Process()
 }
 
 // Check error returned by I/O functions
@@ -88,8 +55,13 @@ func check(e error) {
 }
 
 // open a file
+// TODO: check the encoding here and return it
 func openFile(fileName string) *os.File {
 	f, err := os.Open(fileName)
 	check(err)
 	return f
+}
+
+func extractCharset() {
+	
 }

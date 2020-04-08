@@ -1,11 +1,14 @@
 
-build :
-	go build ./cmd/dsxutl
+build : clean
+	go build
 
-test :
-	go test -v ./integration
+test : clean build
+	go test -v
+
+install : clean
+	go install
 
 clean :
-	del dsxutl.exe
+	if exist dsxutl.exe del dsxutl.exe
 
 .DEFAULT_GOAL = build

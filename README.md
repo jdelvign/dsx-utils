@@ -20,11 +20,10 @@ Usage: dsxutl grep -substr <SUBSTRING> [-ignoreCase] -dsxfile <DSXFILE>
 ```
 
 ## `dsxutl ljobs` command
-- Display the jobdesigns contained in the DSX file on the standard output
+- Display the job designs contained in the DSX file on the standard output
 
 ## `dsxutl header` command
 - Display the DSX header on the standard output
 
 # How to Build
-go build
-
+`dsxutl` use a simple [Makefile](Makefile) designs to run under Windows

@@ -13,7 +13,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package main
+
+// Package dsx contains code for the dsxutl command
+package dsx
 
 import (
 	"bufio"
@@ -23,10 +25,11 @@ import (
 	"strings"
 )
 
-// some comment
-type commandGrep struct{}
+// CommandGrep some comment
+type CommandGrep struct{}
 
-func (t *commandGrep) process() {
+// Process ...
+func (t *CommandGrep) Process() {
 
 	var (
 		dsxFileName string

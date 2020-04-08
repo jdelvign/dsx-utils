@@ -1,17 +1,21 @@
-// Copyright 2019 Jerome Delvigne
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// 	http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-package main
+/*
+Copyright 2019 Jerome Delvigne
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+// Package dsx contains internal code for the dsxutl command
+package dsx
 
 import (
 	"bufio"
@@ -21,10 +25,11 @@ import (
 	"strings"
 )
 
-// empty struct that hold the process() function
-type commandRemove struct{}
+// CommandRemove empty struct that hold the process() function
+type CommandRemove struct{}
 
-func (t *commandRemove) process() {
+// Process ...
+func (t *CommandRemove) Process() {
 
 	var (
 		dsxFileName    string
@@ -35,7 +40,7 @@ func (t *commandRemove) process() {
 	rmCmd := flag.NewFlagSet("remove", flag.ExitOnError)
 	rmCmd.StringVar(&outputFileName, "outputFileName", "", "The output DSX file")
 	rmCmd.StringVar(&dsxFileName, "dsxfile", "", "The input DSX file")
-	rmCmd.StringVar(&objectName, "objectName", "", "Name of the object to be removed from <dsxfile>")
+	rmCmd.StringVar(&objectName, "objectName", "", "Name of the object to remove from <dsxfile>")
 
 	rmCmd.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: dsxutl rm -dsxfile <DSXFILE> -outputFileName <OUTPUT> -objectName <OBJECT>\n")
