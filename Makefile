@@ -1,14 +1,21 @@
+# Go parameters, thx to https://sohlich.github.io/post/go_makefile/
+GOCMD=go
+GOBUILD=$(GOCMD) build
+GOCLEAN=$(GOCMD) clean
+GOTEST=$(GOCMD) test
+GOINSTALL=$(GOCMD) install
+GOGET=$(GOCMD) get
 
 build : clean
-	go build
+	$(GOBUILD) -v
 
 test : clean build
-	go test -v
+	$(GOTEST) ./... -v
 
 install : clean
-	go install
+	$(GOINSTALL)
 
 clean :
-	if exist dsxutl.exe del dsxutl.exe
+	$(GOCLEAN)
 
 .DEFAULT_GOAL = build

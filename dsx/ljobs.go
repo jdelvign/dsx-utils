@@ -53,10 +53,10 @@ func (t CommandLJobs) Process() {
 		os.Exit(1)
 	}
 
-	f := openFile(dsxFileName)
+	f, r := openFile(dsxFileName)
 	defer f.Close()
 
-	scanner := bufio.NewScanner(f)
+	scanner := bufio.NewScanner(r)
 
 	dsjob := false
 	dsProject := "<not available>"

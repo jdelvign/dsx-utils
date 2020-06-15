@@ -56,10 +56,10 @@ func (t *CommandGrep) Process() {
 
 	fmt.Printf("Searching \"%s\" in %s, ignoreCase=%t\n", subString, dsxFileName, ignoreCase)
 
-	f := openFile(dsxFileName)
+	f, r := openFile(dsxFileName)
 	defer f.Close()
 
-	scanner := bufio.NewScanner(f)
+	scanner := bufio.NewScanner(r)
 
 	dsjob := false
 	dsJobName := "<not available>"

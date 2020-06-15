@@ -48,10 +48,10 @@ func (t *CommandHeader) Process() {
 		os.Exit(1)
 	}
 
-	f := openFile(dsxFileName)
+	f, r := openFile(dsxFileName)
 	defer f.Close()
 
-	scanner := bufio.NewScanner(f)
+	scanner := bufio.NewScanner(r)
 
 	display := false
 

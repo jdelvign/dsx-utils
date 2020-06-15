@@ -54,10 +54,10 @@ func (t *CommandRemove) Process() {
 		os.Exit(1)
 	}
 
-	fileIn := openFile(dsxFileName)
-	defer fileIn.Close()
+	f, r := openFile(dsxFileName)
+	defer f.Close()
 
-	scanner := bufio.NewScanner(fileIn)
+	scanner := bufio.NewScanner(r)
 
 	dsjob := false
 	dsJobName := "<not available>"

@@ -18,8 +18,14 @@ limitations under the License.
 package dsx
 
 import (
+	"bufio"
 	"fmt"
 	"os"
+	"strings"
+
+	"golang.org/x/text/encoding"
+	"golang.org/x/text/encoding/charmap"
+	"golang.org/x/text/transform"
 )
 
 // Some Constants
@@ -27,7 +33,7 @@ const (
 	beginHeader string = "BEGIN HEADER"
 	endHeader   string = "END HEADER"
 
-	dsCharset string = "   CharacterSet"
+	characterSet string = "   CharacterSet"
 
 	beginDSJOB string = "BEGIN DSJOB"
 	endDSJOB   string = "END DSJOB"
@@ -43,6 +49,10 @@ type Command interface {
 	Process()
 }
 
+var csMap = map[string]encoding.Encoding{
+	"CP1252": charmap.Windows1252,
+}
+
 // Check error returned by I/O functions
 func check(e error) {
 	if e != nil {
@@ -55,13 +65,36 @@ func check(e error) {
 }
 
 // open a file
-// TODO: check the encoding here and return it
-func openFile(fileName string) *os.File {
+// TODO: check the DSX charset here and return the appropriate scanner
+func openFile(fileName string) (*os.File, *transform.Reader) {
+
+	cs, err := extractCharset(fileName)
+	check(err)
+
 	f, err := os.Open(fileName)
 	check(err)
-	return f
+
+	r := transform.NewReader(f, csMap[cs].NewDecoder())
+
+	return f, r
 }
 
-func extractCharset() {
-	
+func extractCharset(fileName string) (charset string, err error) {
+
+	f, err := os.Open(fileName)
+	defer f.Close()
+
+	check(err)
+
+	scanner := bufio.NewScanner(f)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+
+		if strings.HasPrefix(line, characterSet) {
+			return strings.Split(line, "\"")[1], nil
+		}
+	}
+
+	return "", fmt.Errorf("CharacterSet not found in %s", f.Name())
 }
