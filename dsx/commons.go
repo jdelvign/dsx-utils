@@ -38,6 +38,15 @@ const (
 	beginDSJOB string = "BEGIN DSJOB"
 	endDSJOB   string = "END DSJOB"
 
+	beginDSROUTINES string = "BEGIN DSROUTINES"
+	endDSROUTINES   string = "END DSROUTINES"
+
+	dsroutineIDENTIFIER string = "      Identifier"
+	dsroutineCATEGORY   string = "      Category"
+
+	beginDSRECORD string = "   BEGIN DSRECORD"
+	endDSRECORD   string = "   END DSRECORD"
+
 	toolInstanceID string = "   ToolInstanceID"
 
 	dsjobIDENTIFIER string = "   Identifier"

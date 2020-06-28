@@ -59,8 +59,11 @@ func (t CommandLJobs) Process() {
 	scanner := bufio.NewScanner(r)
 
 	dsjob := false
+	dsroutines := false
+	dsrecord := false
 	dsProject := "<not available>"
 	dsJobName := "<not available>"
+	dsRoutineName := "<not available>"
 	dsCategory := "<not available>"
 
 	for scanner.Scan() {
@@ -74,12 +77,45 @@ func (t CommandLJobs) Process() {
 			dsjob = true
 		}
 
+		if line == beginDSROUTINES {
+			dsroutines = true
+		}
+
 		if dsjob {
 			if strings.HasPrefix(line, dsjobIDENTIFIER) {
 				dsJobName = strings.Split(line, "\"")[1]
 			}
 			if strings.HasPrefix(line, dsjobCATEGORY) {
 				dsCategory = strings.Split(line, "\"")[1]
+			}
+		}
+
+		if dsroutines {
+			if line == beginDSRECORD {
+				dsrecord = true
+			}
+		}
+
+		if dsroutines && dsrecord {
+			if strings.HasPrefix(line, dsroutineIDENTIFIER) {
+				dsRoutineName = strings.Split(line, "\"")[1]
+			}
+			if strings.HasPrefix(line, dsroutineCATEGORY) {
+				dsCategory = strings.Split(line, "\"")[1]
+			}
+			if line == endDSRECORD {
+				// Print routine info now !
+				if withCategory {
+					fmt.Printf("%s\t%s\t%s\n", dsProject, dsCategory, dsRoutineName)
+				} else {
+					fmt.Printf("%s\n", dsRoutineName)
+				}
+
+				dsrecord = false
+				dsRoutineName = "<not available>"
+			}
+			if line == endDSROUTINES {
+				dsroutines = false
 			}
 		}
 
