@@ -60,6 +60,8 @@ func (t *CommandGrep) Process() {
 	defer f.Close()
 
 	scanner := bufio.NewScanner(r)
+	var buffer []byte
+	scanner.Buffer(buffer, bufferSize)
 
 	dsjob := false
 	dsJobName := "<not available>"
@@ -111,5 +113,8 @@ func (t *CommandGrep) Process() {
 		}
 
 		lineCounter++
+	}
+	if err := scanner.Err(); err != nil {
+		fmt.Printf("Error while reading dsx file: %e", err)
 	}
 }

@@ -57,6 +57,8 @@ func (t CommandLJobs) Process() {
 	defer f.Close()
 
 	scanner := bufio.NewScanner(r)
+	var buffer []byte
+	scanner.Buffer(buffer, bufferSize)
 
 	dsjob := false
 	dsroutines := false
@@ -132,6 +134,9 @@ func (t CommandLJobs) Process() {
 			dsCategory = "<not available>"
 		}
 
+	}
+	if err := scanner.Err(); err != nil {
+		fmt.Printf("Error while reading dsx file: %e", err)
 	}
 
 }

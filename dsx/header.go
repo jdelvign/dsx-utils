@@ -69,4 +69,7 @@ func (t *CommandHeader) Process() {
 			display = false
 		}
 	}
+	if err := scanner.Err(); err != nil {
+		fmt.Printf("Error while reading dsx file: %e", err)
+	}
 }

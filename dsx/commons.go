@@ -51,6 +51,8 @@ const (
 
 	dsjobIDENTIFIER string = "   Identifier"
 	dsjobCATEGORY   string = "      Category"
+
+	bufferSize = 1024 * 1024
 )
 
 // Command ...
