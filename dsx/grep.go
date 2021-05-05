@@ -60,7 +60,7 @@ func (t *CommandGrep) Process() {
 	defer f.Close()
 
 	scanner := bufio.NewScanner(r)
-	var buffer []byte
+	buffer := make([]byte, bufferSize)
 	scanner.Buffer(buffer, bufferSize)
 
 	dsjob := false
