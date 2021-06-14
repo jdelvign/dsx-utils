@@ -32,29 +32,31 @@ type CommandGrep struct{}
 func (t *CommandGrep) Process() {
 
 	var (
-		dsxFileName string
-		subString   string
-		ignoreCase  bool
+		dsxFileName     string
+		subString       string
+		caseInsensitive bool
 	)
 
 	grepCmd := flag.NewFlagSet("grep", flag.ExitOnError)
 	grepCmd.StringVar(&subString, "substr", "", "The substring to find in the DSX file")
-	grepCmd.StringVar(&dsxFileName, "dsxfile", "", "The DSX file to search in")
-	grepCmd.BoolVar(&ignoreCase, "ignoreCase", false, "Search the substring in case sensitive (false/default) or not (true)")
+	grepCmd.BoolVar(&caseInsensitive, "ci", false, "Search the substring in case insensitive")
 
 	grepCmd.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: dsxutl grep -substr <SUBSTRING> [-ignoreCase] -dsxfile <DSXFILE>\n")
+		fmt.Fprintf(os.Stderr, "Usage: dsxutl grep -substr <SUBSTRING> [-ci] <DSXFILE>\n")
 		grepCmd.PrintDefaults()
 	}
 
 	grepCmd.Parse(os.Args[2:])
 
-	if (grepCmd.NFlag() > 3) || (grepCmd.NFlag() == 0) {
+	if subString == "" ||
+		len(grepCmd.Args()) != 1 {
 		grepCmd.Usage()
 		os.Exit(1)
 	}
 
-	fmt.Printf("Searching \"%s\" in %s, ignoreCase=%t\n", subString, dsxFileName, ignoreCase)
+	dsxFileName = grepCmd.Args()[0]
+
+	fmt.Printf("Searching \"%s\" in %s, CaseInsensitive=%t\n", subString, dsxFileName, caseInsensitive)
 
 	f, r := openFile(dsxFileName)
 	defer f.Close()
@@ -86,7 +88,7 @@ func (t *CommandGrep) Process() {
 				dsCategory = strings.Split(line, "\"")[1]
 			}
 
-			if ignoreCase {
+			if caseInsensitive {
 				searchIndex = strings.Index(strings.ToLower(line), strings.ToLower(subString))
 			} else {
 				searchIndex = strings.Index(line, subString)

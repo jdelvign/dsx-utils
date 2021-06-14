@@ -1,6 +1,6 @@
-ByDior_Dev	\\Jobs\\M3_BT\\Sequenceurs_Lancement	Js_LanceAuto_Produit
-ByDior_Dev	\\Jobs\\M3_BT\\Client	Js_LanceClient
-ByDior_Dev	\\Jobs\\M3_BT\\Sequenceurs_Lancement	Js_LanceRelance_Produit
-ByDior_Dev	\\Jobs\\M3_BT\\Client	JxExtClient
-ByDior_Dev	\\Jobs\\M3_BT\\Client	JxLoadClient
-ByDior_Dev	\\Jobs\\M3_BT\\Client	JxTrfClient
+ByDior_Dev	Js_LanceAuto_Produit	\\Jobs\\M3_BT\\Sequenceurs_Lancement
+ByDior_Dev	Js_LanceClient	\\Jobs\\M3_BT\\Client
+ByDior_Dev	Js_LanceRelance_Produit	\\Jobs\\M3_BT\\Sequenceurs_Lancement
+ByDior_Dev	JxExtClient	\\Jobs\\M3_BT\\Client
+ByDior_Dev	JxLoadClient	\\Jobs\\M3_BT\\Client
+ByDior_Dev	JxTrfClient	\\Jobs\\M3_BT\\Client

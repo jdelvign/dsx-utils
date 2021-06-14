@@ -93,6 +93,7 @@ func openFile(fileName string) (*os.File, *transform.Reader) {
 func extractCharset(fileName string) (charset string, err error) {
 
 	f, err := os.Open(fileName)
+	check(err)
 	defer f.Close()
 
 	check(err)

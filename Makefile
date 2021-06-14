@@ -9,7 +9,7 @@ GOGET=$(GOCMD) get
 build : clean
 	$(GOBUILD) -v
 
-test : clean build
+test : clean
 	$(GOTEST) ./... -v
 
 install : clean

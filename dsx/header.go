@@ -19,7 +19,6 @@ package dsx
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"os"
 )
@@ -30,28 +29,19 @@ type CommandHeader struct{}
 // Process ...
 func (t *CommandHeader) Process() {
 
-	var dsxFileName string
-
-	headerCmd := flag.NewFlagSet("header", flag.ExitOnError)
-	headerCmd.StringVar(&dsxFileName, "dsxfile", "", "The DSX file to search in")
-
-	headerCmd.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: dsxutl header -dsxfile DSXFILE\n")
-		headerCmd.PrintDefaults()
-	}
-
-	headerCmd.Parse(os.Args[2:])
-
-	if dsxFileName == "" {
-		fmt.Fprintf(os.Stderr, "Mandatory flag not provided: -dsxfile\n")
-		headerCmd.Usage()
+	if len(os.Args) != 3 {
+		fmt.Fprintf(os.Stderr, "Usage: dsxutl header <DSXFILE>\n")
 		os.Exit(1)
-	}
+	} 
+
+	dsxFileName := os.Args[len(os.Args)-1]
 
 	f, r := openFile(dsxFileName)
 	defer f.Close()
 
 	scanner := bufio.NewScanner(r)
+	buffer := make([]byte, bufferSize)
+	scanner.Buffer(buffer, bufferSize)
 
 	display := false
 

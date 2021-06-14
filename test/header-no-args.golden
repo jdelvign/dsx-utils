@@ -1,4 +1,1 @@
-Mandatory flag not provided: -dsxfile
-Usage: dsxutl header -dsxfile DSXFILE
-  -dsxfile string
-    	The DSX file to search in
+Usage: dsxutl header <DSXFILE>

@@ -19,7 +19,6 @@ package dsx
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"os"
 	"strings"
@@ -31,27 +30,12 @@ type CommandLJobs struct{}
 // Process ...
 func (t CommandLJobs) Process() {
 
-	var (
-		withCategory bool
-		dsxFileName  string
-	)
-
-	ljobsCmd := flag.NewFlagSet("ljobs", flag.ExitOnError)
-	ljobsCmd.BoolVar(&withCategory, "withCategory", false, "Display the Category where job resides")
-	ljobsCmd.StringVar(&dsxFileName, "dsxfile", "", "The DSX file to search in")
-
-	ljobsCmd.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: dsxutl ljobs [-withCategory] -dsxfile DSXFILE\n")
-		ljobsCmd.PrintDefaults()
-	}
-
-	ljobsCmd.Parse(os.Args[2:])
-
-	if dsxFileName == "" {
-		fmt.Fprintf(os.Stderr, "Mandatory flag not provided: -dsxfile\n")
-		ljobsCmd.Usage()
+	if len(os.Args) != 3 {
+		fmt.Fprintf(os.Stderr, "Usage: dsxutl ljobs <DSXFILE>\n")
 		os.Exit(1)
 	}
+
+	dsxFileName := os.Args[len(os.Args)-1]
 
 	f, r := openFile(dsxFileName)
 	defer f.Close()
@@ -107,11 +91,7 @@ func (t CommandLJobs) Process() {
 			}
 			if line == endDSRECORD {
 				// Print routine info now !
-				if withCategory {
-					fmt.Printf("%s\t%s\t%s\n", dsProject, dsCategory, dsRoutineName)
-				} else {
-					fmt.Printf("%s\n", dsRoutineName)
-				}
+				fmt.Printf("%s\t%s\t%s\n", dsProject, dsRoutineName, dsCategory)
 
 				dsrecord = false
 				dsRoutineName = "<not available>"
@@ -123,11 +103,7 @@ func (t CommandLJobs) Process() {
 
 		if line == endDSJOB {
 			// Print job info now !
-			if withCategory {
-				fmt.Printf("%s\t%s\t%s\n", dsProject, dsCategory, dsJobName)
-			} else {
-				fmt.Printf("%s\n", dsJobName)
-			}
+			fmt.Printf("%s\t%s\t%s\n", dsProject, dsJobName, dsCategory)
 
 			dsjob = false
 			dsJobName = "<not available>"
