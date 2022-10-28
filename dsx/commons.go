@@ -38,6 +38,9 @@ const (
 	beginDSJOB string = "BEGIN DSJOB"
 	endDSJOB   string = "END DSJOB"
 
+	beginDSEXECJOB string = "BEGIN DSEXECJOB"
+	endDSEXECJOB   string = "END DSEXECJOB"
+
 	beginDSROUTINES string = "BEGIN DSROUTINES"
 	endDSROUTINES   string = "END DSROUTINES"
 
